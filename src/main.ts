@@ -41,7 +41,22 @@ function incrementCounter() {
   div.textContent = `${saltNum}:🧂`; // Initialize with a fun emoji or label
 }
 
-setInterval(incrementCounter, 1000)
-
 document.body.appendChild(button);
 document.body.appendChild(div);
+
+let lastTime = 0;
+function animate(currentTime) {
+    // Calculate elapsed time since last frame
+    const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
+    saltNum += deltaTime; // Accumulates to 1 unit per second
+
+    if (div) {
+        div.textContent = `${saltNum.toFixed(0)}:🧂`;
+    }
+
+    lastTime = currentTime;
+    requestAnimationFrame(animate);  
+}
+  
+requestAnimationFrame(animate);
+
