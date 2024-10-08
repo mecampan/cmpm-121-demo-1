@@ -45,18 +45,17 @@ document.body.appendChild(button);
 document.body.appendChild(div);
 
 let lastTime = 0;
-function animate(currentTime) {
-    // Calculate elapsed time since last frame
-    const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
-    saltNum += deltaTime; // Accumulates to 1 unit per second
+function animate(currentTime: DOMHighResTimeStamp) {
+  // Calculate elapsed time since last frame
+  const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
+  saltNum += deltaTime; // Accumulates to 1 unit per second
 
-    if (div) {
-        div.textContent = `${saltNum.toFixed(0)}:🧂`;
-    }
+  if (div) {
+    div.textContent = `${saltNum.toFixed(0)}:🧂`;
+  }
 
-    lastTime = currentTime;
-    requestAnimationFrame(animate);  
+  lastTime = currentTime;
+  requestAnimationFrame(animate);
 }
-  
-requestAnimationFrame(animate);
 
+requestAnimationFrame(animate);
