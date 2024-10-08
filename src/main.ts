@@ -41,5 +41,7 @@ function incrementCounter() {
   div.textContent = `${saltNum}:🧂`; // Initialize with a fun emoji or label
 }
 
+setInterval(incrementCounter, 1000)
+
 document.body.appendChild(button);
 document.body.appendChild(div);
