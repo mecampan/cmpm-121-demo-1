@@ -26,7 +26,7 @@ div.style.transform = "translate(-50%, -50%)";
 // Update display
 function updateDisplay() {
   if (div) {
-      div.innerHTML = `
+    div.innerHTML = `
           ${saltNum.toFixed(0)}: Pounds of Salt<br>
           per second: ${saltGrowthRate.toFixed(2)}
       `;
@@ -35,8 +35,15 @@ function updateDisplay() {
 
 document.body.appendChild(div);
 
-function createButton(name: string, initialX: number, initialY: number, cost: number, growthRate: number) {
+function createButton(
+  name: string,
+  initialX: number,
+  initialY: number,
+  cost: number,
+  growthRate: number,
+) {
   let purchaseTotal = 0;
+  //let incrementalValue = 1.15;
 
   const button = document.createElement("button");
   updateButtonDisplay();
@@ -50,37 +57,36 @@ function createButton(name: string, initialX: number, initialY: number, cost: nu
   document.body.appendChild(button);
 
   button.addEventListener("click", () => {
-      if (cost > 0) {
-          incrementGrowthRate();
-      } else {
-          manualIncrement();
-      }
+    if (cost > 0) {
+      incrementGrowthRate();
+    } else {
+      manualIncrement();
+    }
   });
 
   function manualIncrement() {
-      saltNum++;
-      updateDisplay();
+    saltNum++;
+    updateDisplay();
   }
 
   function incrementGrowthRate() {
-      if (saltNum >= cost) {
-          saltNum -= cost;
-          saltGrowthRate += growthRate;
-          purchaseTotal++;
-          updateButtonDisplay();
-          updateDisplay();
-      }
+    if (saltNum >= cost) {
+      saltNum -= cost;
+      saltGrowthRate += growthRate;
+      purchaseTotal++;
+      updateButtonDisplay();
+      updateDisplay();
+    }
   }
 
   function checkButtonStatus() {
-      button.disabled = cost > 0 && saltNum < cost;
+    button.disabled = cost > 0 && saltNum < cost;
   }
 
   function updateButtonDisplay() {
     if (cost > 0) {
       button.textContent = `${name}: ${purchaseTotal}`; // Update button text
-    }
-    else {
+    } else {
       button.textContent = name;
     }
   }
@@ -92,24 +98,19 @@ let saltNum: number = 0;
 let saltGrowthRate: number = 0;
 
 const manualButton = createButton("🧂", 30, 60, 0, 0);
-manualButton.button.style.fontSize = "200px"
-manualButton.button.style.padding = "1px"
+manualButton.button.style.fontSize = "200px";
+manualButton.button.style.padding = "1px";
 manualButton.button.style.width = "300px";
 const autoButtonA = createButton("Salt Shakers 🧂", 80, 40, 10, 0.1);
 const autoButtonB = createButton("Pick Axes 🧂", 80, 50, 100, 2);
 const autoButtonC = createButton("Salt Mines 🧂", 80, 60, 1000, 50);
 
-const buttonArray = [
-  manualButton,
-  autoButtonA,
-  autoButtonB,
-  autoButtonC
-]
+const buttonArray = [manualButton, autoButtonA, autoButtonB, autoButtonC];
 
 let lastTime = 0;
 function animate(currentTime: DOMHighResTimeStamp) {
   // Add buttons to the document and set initial positions
-  buttonArray.forEach((buttonInstance, index) => {
+  buttonArray.forEach((buttonInstance) => {
     buttonInstance.checkButtonStatus();
   });
 
