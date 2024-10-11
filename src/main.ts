@@ -102,11 +102,11 @@ const manualButton = createButton("🧂", 30, 60, 0, 0);
 manualButton.button.style.fontSize = "200px";
 manualButton.button.style.padding = "1px";
 manualButton.button.style.width = "300px";
-const autoButtonA = createButton("🧂Salt Shakers", 70, 40, 10, 0.1);
-const autoButtonB = createButton("⛏️Pick Axes", 70, 50, 100, 2);
-const autoButtonC = createButton("🪨Salt Mines", 70, 60, 1000, 50);
+const saltShakers = createButton("🧂Salt Shakers", 70, 40, 10, 0.1);
+const pickAxes = createButton("⛏️Pick Axes", 70, 50, 100, 2);
+const saltMines = createButton("🪨Salt Mines", 70, 60, 1000, 50);
 
-const buttonArray = [manualButton, autoButtonA, autoButtonB, autoButtonC];
+const buttonArray = [manualButton, saltShakers, pickAxes, saltMines];
 
 let lastTime = 0;
 function animate(currentTime: DOMHighResTimeStamp) {
