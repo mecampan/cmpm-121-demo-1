@@ -28,7 +28,7 @@ let saltNum: number = 0;
 let saltGrowthRate: number = 0;
 const incrementalValue = 1.15;
 const initialX = 70;
-const initialY = 40;
+const initialY = 30;
 const buttonSpacing = 10;
 
 interface Item {
@@ -36,13 +36,20 @@ interface Item {
   cost: number;
   growthRate: number;
   purchaseTotal: number;
+  description: string;
   button?: HTMLButtonElement;
 }
 
 // Main Salt Clicker Button
-const SaltClickerButton: Item = {name: "🧂", cost: 0, growthRate: 0, purchaseTotal: 0}
+const SaltClickerButton: Item = {
+  name: "🧂",
+  cost: 0,
+  growthRate: 0,
+  purchaseTotal: 0,
+  description: "Click the salt button to get salt. Easy!"
+};
 createButton(SaltClickerButton, 1);
-if(SaltClickerButton.button) {
+if (SaltClickerButton.button) {
   SaltClickerButton.button.style.fontSize = "200px";
   SaltClickerButton.button.style.padding = "1px";
   SaltClickerButton.button.style.width = "300px";
@@ -52,9 +59,12 @@ if(SaltClickerButton.button) {
 
 // Purchasable Upgrade Buttons
 const availableItems: Item[] = [
-  { name: "🧂Salt Shakers", cost: 10, growthRate: 0.1, purchaseTotal: 0 },
-  { name: "⛏️Pick Axes", cost: 100, growthRate: 2, purchaseTotal: 0 },
-  { name: "🪨Salt Mines", cost: 1000, growthRate: 50, purchaseTotal: 0 }
+  { name: "🧂Salt Shakers", cost: 10, growthRate: 1, purchaseTotal: 0, description: "A salt shaker from a restaurant." },
+  { name: "⛏️Pick Axes", cost: 100, growthRate: 3, purchaseTotal: 0, description: "Study tools to help mine for salt." },
+  { name: "🛁Bath Salts", cost: 1000, growthRate: 50, purchaseTotal: 0, description: "Don't snort these, please don't." },
+  { name: "🪨Salt Mines", cost: 10000, growthRate: 500, purchaseTotal: 0, description: "Every thing is edible in here!" },
+  { name: "🧌Internet Trolls", cost: 100000, growthRate: 3000, purchaseTotal: 0, description: "Clacking away on their keyboards at the speed of sound and collecting the delicious tears of all who dare respond." },
+  { name: "👨‍🍳Salt Bae", cost: 1000000, growthRate: 12000, purchaseTotal: 0, description: "$100000 for a gold encrusted steak is a good deal!" },
 ];
 
 // Set up buttons on initial load
@@ -65,6 +75,7 @@ availableItems.forEach((item, index) => {
 // Functions
 function createButton(item: Item, index: number) {
   const button = document.createElement("button");
+  button.title = item.description; // Set the description as the tooltip
   styleButton(button, index);
 
   button.addEventListener("click", () => {
@@ -113,8 +124,7 @@ function checkButtonStatus(item: Item) {
 function updateButtonDisplay(item: Item) {
   if (item.button && item.growthRate != 0) {
     item.button.textContent = `${item.name}: ${item.purchaseTotal}`;
-  }
-  else if(item.button) {
+  } else if (item.button) {
     item.button.textContent = `${item.name}`;
   }
 }
