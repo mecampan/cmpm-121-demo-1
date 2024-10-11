@@ -28,7 +28,7 @@ function updateDisplay() {
   if (div) {
     div.innerHTML = `
           ${saltNum.toFixed(0)}: Pounds of Salt<br>
-          per second: ${saltGrowthRate.toFixed(2)}
+          per second: ${saltGrowthRate.toFixed(1)}
       `;
   }
 }
@@ -43,12 +43,12 @@ function createButton(
   growthRate: number,
 ) {
   let purchaseTotal = 0;
-  //let incrementalValue = 1.15;
+  const incrementalValue = 1.15;
 
   const button = document.createElement("button");
   updateButtonDisplay();
-  button.style.padding = "15px";
-  button.style.width = "400px";
+  button.style.padding = "3px";
+  button.style.width = "500px";
   button.style.fontSize = "30px";
   button.style.position = "absolute";
   button.style.left = `${initialX}%`;
@@ -72,6 +72,7 @@ function createButton(
   function incrementGrowthRate() {
     if (saltNum >= cost) {
       saltNum -= cost;
+      cost *= incrementalValue;
       saltGrowthRate += growthRate;
       purchaseTotal++;
       updateButtonDisplay();
@@ -80,7 +81,7 @@ function createButton(
   }
 
   function checkButtonStatus() {
-    button.disabled = cost > 0 && saltNum < cost;
+    button.disabled = saltNum < cost;
   }
 
   function updateButtonDisplay() {
@@ -101,9 +102,9 @@ const manualButton = createButton("🧂", 30, 60, 0, 0);
 manualButton.button.style.fontSize = "200px";
 manualButton.button.style.padding = "1px";
 manualButton.button.style.width = "300px";
-const autoButtonA = createButton("Salt Shakers 🧂", 80, 40, 10, 0.1);
-const autoButtonB = createButton("Pick Axes 🧂", 80, 50, 100, 2);
-const autoButtonC = createButton("Salt Mines 🧂", 80, 60, 1000, 50);
+const autoButtonA = createButton("🧂Salt Shakers", 70, 40, 10, 0.1);
+const autoButtonB = createButton("⛏️Pick Axes", 70, 50, 100, 2);
+const autoButtonC = createButton("🪨Salt Mines", 70, 60, 1000, 50);
 
 const buttonArray = [manualButton, autoButtonA, autoButtonB, autoButtonC];
 
