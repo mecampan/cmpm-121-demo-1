@@ -4,6 +4,7 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 const gameName = "Salt Miner";
 document.title = gameName;
 
+// Game Header Text
 const header = document.createElement("h1");
 header.innerHTML = gameName;
 header.style.fontSize = "50px";
@@ -13,6 +14,7 @@ header.style.left = "30%";
 header.style.transform = "translate(-50%, -50%)";
 app.append(header);
 
+// Text that shows salt amount and growth rate
 const saltNumText = document.createElement("div");
 saltNumText.style.padding = "5px";
 saltNumText.style.fontSize = "25px";
@@ -107,6 +109,7 @@ function createButton(item: Item, index: number) {
   styleButton(button, index);
 
   button.addEventListener("click", () => {
+    // Set up to work with manual button which has no cost, and purchasable upgrade buttons
     if (saltNum >= item.cost && item.cost > 0) {
       incrementGrowthRate(item);
     } else {
