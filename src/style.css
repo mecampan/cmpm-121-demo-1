@@ -34,6 +34,10 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #app {
