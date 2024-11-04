@@ -187,7 +187,7 @@ interface ItemTracker {
   [emoji: string]: number; // Tracks number of each emoji currently on screen
 }
 
-let displayedItemsCount: ItemTracker = {};
+const displayedItemsCount: ItemTracker = {};
 
 function backgroundSaltFall() {
   availableItems.forEach((item) => {
@@ -209,7 +209,7 @@ function createFallingImage(emoji: string) {
   emojiElement.style.fontSize = "50px";
   emojiElement.style.position = "absolute";
   emojiElement.style.transform = "translate(-50%, -50%)";
-  emojiElement.style.zIndex = "-1";  // Ensures it's in the background
+  emojiElement.style.zIndex = "-1"; // Ensures it's in the background
 
   const horizontalPos = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
   emojiElement.style.left = `${horizontalPos}%`;
