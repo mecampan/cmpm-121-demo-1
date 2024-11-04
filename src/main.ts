@@ -26,6 +26,7 @@ document.body.appendChild(saltNumText);
 
 interface Item {
   name: string;
+  emoji: string;
   cost: number;
   growthRate: number;
   purchaseTotal: number;
@@ -41,6 +42,7 @@ const GrowthRateMultiplier = 1.15;
 const availableItems: Item[] = [
   {
     name: "🧂Salt Shakers",
+    emoji: "🧂",
     cost: 10,
     growthRate: 1,
     purchaseTotal: 0,
@@ -48,6 +50,7 @@ const availableItems: Item[] = [
   },
   {
     name: "⛏️Pick Axes",
+    emoji: "⛏️",
     cost: 100,
     growthRate: 3,
     purchaseTotal: 0,
@@ -55,6 +58,7 @@ const availableItems: Item[] = [
   },
   {
     name: "🛁Bath Salts",
+    emoji: "🛁",
     cost: 1000,
     growthRate: 50,
     purchaseTotal: 0,
@@ -62,6 +66,7 @@ const availableItems: Item[] = [
   },
   {
     name: "🪨Salt Mines",
+    emoji: "🪨",
     cost: 10000,
     growthRate: 500,
     purchaseTotal: 0,
@@ -69,6 +74,7 @@ const availableItems: Item[] = [
   },
   {
     name: "🧌Internet Trolls",
+    emoji: "🧌",
     cost: 100000,
     growthRate: 3000,
     purchaseTotal: 0,
@@ -77,6 +83,7 @@ const availableItems: Item[] = [
   },
   {
     name: "👨‍🍳Salt Bae",
+    emoji: "👨‍🍳",
     cost: 1000000,
     growthRate: 12000,
     purchaseTotal: 0,
@@ -138,7 +145,7 @@ function incrementGrowthRate(item: Item) {
 
 function updateButtonDisplay(item: Item) {
   if (item.button && item.growthRate != 0) {
-    item.button.textContent = `${item.name}: ${item.purchaseTotal}`;
+    item.button.textContent = `${item.name}: ${item.purchaseTotal} Cost: ${item.cost}`;
   } else if (item.button) {
     item.button.textContent = `${item.name}`;
   }
@@ -160,6 +167,7 @@ function checkButtonStatus(item: Item) {
 // Main Salt Clicker Button
 const SaltClickerButton: Item = {
   name: "🧂",
+  emoji: "🧂",
   cost: 0,
   growthRate: 0,
   purchaseTotal: 0,
@@ -175,13 +183,81 @@ if (SaltClickerButton.button) {
   SaltClickerButton.button.style.top = "55%";
 }
 
-// Main animation loop
+interface ItemTracker {
+  [emoji: string]: number; // Tracks number of each emoji currently on screen
+}
+
+let displayedItemsCount: ItemTracker = {};
+
+function backgroundSaltFall() {
+  availableItems.forEach((item) => {
+    if (!displayedItemsCount[item.emoji]) {
+      displayedItemsCount[item.emoji] = 0;
+    }
+
+    // Check if the current number of displayed items is less than the purchaseTotal
+    if (displayedItemsCount[item.emoji] < item.purchaseTotal) {
+      createFallingImage(item.emoji);
+      displayedItemsCount[item.emoji]++;
+    }
+  });
+}
+
+function createFallingImage(emoji: string) {
+  const emojiElement = document.createElement("span");
+  emojiElement.textContent = emoji;
+  emojiElement.style.fontSize = "50px";
+  emojiElement.style.position = "absolute";
+  emojiElement.style.transform = "translate(-50%, -50%)";
+  emojiElement.style.zIndex = "-1";  // Ensures it's in the background
+
+  const horizontalPos = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+  emojiElement.style.left = `${horizontalPos}%`;
+
+  document.body.appendChild(emojiElement);
+  addFallingToImage(emojiElement, emoji);
+}
+
+function addFallingToImage(emojiElement: HTMLElement, emoji: string) {
+  let position = -5;
+  const fallSpeed = Math.random() * 0.2 + 0.08;
+
+  function fall() {
+    position += fallSpeed;
+    emojiElement.style.top = `${position}%`;
+
+    if (position < 105) {
+      requestAnimationFrame(fall);
+    } else {
+      emojiElement.remove();
+      decrementDisplayCount(emoji);
+    }
+  }
+
+  fall();
+}
+
+function decrementDisplayCount(emoji: string) {
+  if (displayedItemsCount[emoji] > 0) {
+    displayedItemsCount[emoji]--;
+  }
+}
+
+// Main Animation Loop
 let lastTime = 0;
+let timeElapsedSinceLastFall = 0;
+
 function animate(currentTime: DOMHighResTimeStamp) {
   availableItems.forEach(checkButtonStatus);
 
   const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
   saltNum += deltaTime * saltGrowthRate;
+
+  timeElapsedSinceLastFall += deltaTime;
+  if (timeElapsedSinceLastFall >= 0.1) {
+    backgroundSaltFall();
+    timeElapsedSinceLastFall = 0;
+  }
 
   updateDisplay();
   lastTime = currentTime;
